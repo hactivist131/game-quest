@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Love Quest for Reen 💖</title>
+
+<style>
+body{
+    margin:0;
+    font-family:'Segoe UI',sans-serif;
+    background:black;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    overflow:hidden;
+    text-align:center;
+}
+
+.container{
+    max-width:400px;
+}
+
+button{
+    padding:10px 20px;
+    margin:10px;
+    font-size:16px;
+    border:none;
+    border-radius:25px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    transform:scale(1.1);
+}
+
+.primary{
+    background:#ff4e50;
+    color:white;
+}
+
+.secondary{
+    background:#333;
+    color:white;
+}
+
+.fade-in{
+    animation:fadeIn 2s ease forwards;
+}
+
+@keyframes fadeIn{
+    from{opacity:0;}
+    to{opacity:1;}
+}
+
+#confetti{
+    position:absolute;
+    width:10px;
+    height:10px;
+    background:white;
+    top:0;
+    animation:fall linear infinite;
+}
+
+@keyframes fall{
+    to{
+        transform:translateY(100vh) rotate(360deg);
+    }
+}
+
+input{
+    padding:10px;
+    border-radius:10px;
+    border:none;
+    font-size:16px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container" id="main">
+
+<!-- PASSWORD SCREEN -->
+<div id="login">
+<h2>🔐 Private Access</h2>
+<p>Enter Secret Code</p>
+<input type="password" id="password" placeholder="Enter password">
+<br><br>
+<button class="primary" onclick="checkPassword()">Unlock</button>
+</div>
+
+</div>
+
+<script>
+
+const correctPassword = "Reen2026";
+let score = 0;
+let level = 1;
+
+function checkPassword(){
+    const pass = document.getElementById("password").value;
+    if(pass === correctPassword){
+        cinematicIntro();
+    } else {
+        alert("Wrong password 😏 Try again.");
+    }
+}
+
+/* 🎬 CINEMATIC INTRO */
+function cinematicIntro(){
+    document.getElementById("main").innerHTML = `
+    <div class="fade-in">
+        <h1>💖 LOVE QUEST 💖</h1>
+        <p>Initializing Romance Protocol...</p>
+    </div>
+    `;
+    setTimeout(()=>{
+        document.getElementById("main").innerHTML = `
+        <div class="fade-in">
+            <h2>For Reen 😌</h2>
+            <p>A Special Adventure Begins...</p>
+        </div>
+        `;
+    },2500);
+
+    setTimeout(()=>{
+        startGame();
+    },5000);
+}
+
+/* 🎮 START GAME */
+function startGame(){
+    document.getElementById("main").innerHTML = `
+    <div class="fade-in">
+    <h2>Level 1</h2>
+    <p>Who is the most amazing person alive?</p>
+    <button class="primary" onclick="correct()">Ethan 💖</button>
+    <button class="secondary" onclick="wrong()">Someone Else 😅</button>
+    </div>
+    `;
+}
+
+function correct(){
+    score++;
+    level++;
+    nextLevel();
+}
+
+function wrong(){
+    alert("Incorrect 😭 Think again carefully...");
+}
+
+function nextLevel(){
+    if(level === 2){
+        document.getElementById("main").innerHTML = `
+        <div class="fade-in">
+        <h2>Level 2 ❤️</h2>
+        <p>Catch the heart!</p>
+        <button id="heart" class="secondary" onclick="heartClick()" style="position:relative;">💓</button>
+        </div>
+        `;
+        moveHeart();
+    }
+    else if(level === 3){
+        document.getElementById("main").innerHTML = `
+        <div class="fade-in">
+        <h2>Final Level 😌</h2>
+        <p>Will you accept this legendary love offer?</p>
+        <button class="primary" onclick="finalYes()">YES 💍</button>
+        <button class="secondary" onclick="moveNo()" id="noBtn">NO 😢</button>
+        </div>
+        `;
+    }
+}
+
+function moveHeart(){
+    const heart = document.getElementById("heart");
+    setInterval(()=>{
+        heart.style.left = Math.random()*200 - 100 + "px";
+        heart.style.top = Math.random()*200 - 100 + "px";
+    },700);
+}
+
+function heartClick(){
+    score++;
+    level++;
+    nextLevel();
+}
+
+function moveNo(){
+    const btn = document.getElementById("noBtn");
+    btn.style.position="absolute";
+    btn.style.left=Math.random()*300+"px";
+    btn.style.top=Math.random()*300+"px";
+}
+
+function finalYes(){
+    document.getElementById("main").innerHTML = `
+    <div class="fade-in">
+    <h1>🎉 SHE SAID YES 🎉</h1>
+    <h2>Reen Completed The Love Quest 💖</h2>
+    <p>Score: ${score}/2</p>
+    <p>You are officially unforgettable 😌✨</p>
+    </div>
+    `;
+    confettiEffect();
+}
+
+/* 🎊 CONFETTI */
+function confettiEffect(){
+    for(let i=0;i<120;i++){
+        let conf=document.createElement("div");
+        conf.id="confetti";
+        conf.style.left=Math.random()*100+"vw";
+        conf.style.background=`hsl(${Math.random()*360},100%,60%)`;
+        conf.style.animationDuration=(2+Math.random()*3)+"s";
+        document.body.appendChild(conf);
+        setTimeout(()=>conf.remove(),5000);
+    }
+}
+
+</script>
+
+</body>
+</html>
